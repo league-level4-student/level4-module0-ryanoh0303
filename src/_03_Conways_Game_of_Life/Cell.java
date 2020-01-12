@@ -57,16 +57,26 @@ public class Cell implements Drawable{
 	//    draws empty square if cell is dead
 	@Override
 	public void draw(Graphics g) {
-		if(isAlive = true) {
-			
-		}
-		if(isAlive= false) {
-			
-		}
+				if(isAlive) {
+					
+					g.setColor(Color.black);
+					g.drawRect(getX(), getY(), (int)Math.sqrt(cellSize), (int)Math.sqrt(cellSize));
+					g.setColor(Color.red);																//this part doesn't work
+					g.fillRect(getX(), getY(), (int)Math.sqrt(cellSize), (int)Math.sqrt(cellSize));
+					
+				}
+				
+				else {
+					g.setColor(Color.black);
+					g.drawRect(getX(), getY(), (int)Math.sqrt(cellSize), (int)Math.sqrt(cellSize));
+				}
+				
+			}
+		
 		
 		
 		
 		
 		
 	}
-}
+
