@@ -170,7 +170,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//    which cell is clicked. Then toggle
 		//    the isAlive variable for that cell.
 		
-		cells[e.getX()/cellsPerRow][e.getY()/cellsPerRow].isAlive =! cells[e.getX()/cellsPerRow][e.getY()/cellsPerRow].isAlive;
+		cells[(e.getX()/cellsPerRow)-100][(e.getY()/cellsPerRow)].isAlive =! cells[(e.getX()/cellsPerRow)-100][(e.getY()/cellsPerRow)].isAlive;
 		
 		
 		
