@@ -39,7 +39,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//   passing in the location.
 		for(int i=0; i<cpr; i++) {
 			for(int j=0; j<cpr; j++) {
-				cells[i][j]= new Cell(w,h,cellSize);
+				cells[i][j]= new Cell((w*i)/cpr,(h*j)/cpr,cellSize); //need to work on this part
 			}
 		}
 		
@@ -48,11 +48,12 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	public void randomizeCells() {
 		//4. Iterate through each cell and randomly set each
 		//   cell's isAlive memeber to true of false
+	
 		Random rand= new Random();
+	
 		for(int i=0; i<cells.length; i++) {
-			for(int j=0; j<cells[i].length; i++) {
-				int randomnum= rand.nextInt(cellSize);
-				cells[randomnum][randomnum].isAlive=true; //true of false??
+			for(int j=0; j<cells[i].length; j++) {
+					cells[i][j].isAlive=rand.nextBoolean();
 			}
 		}
 		
@@ -87,14 +88,17 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//6. Iterate through the cells and draw them all
 		for(int i=0; i<cells.length; i++) {
 			for(int j=0; j<cells[i].length; j++) {
+				g.setColor(Color.BLACK);
+				g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 				cells[i][j].draw(g); //calling draw method here
+				System.out.println(cells[i][j].isAlive);
+				
 			}
 		}
-		
+	//	
 		
 		// draws grid
-		g.setColor(Color.BLACK);
-		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+		
 	}
 	
 	//advances world one step
@@ -112,7 +116,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		
 		for(int i=0; i<cellsPerRow; i++) {
 			for(int j=0; j<cellsPerRow; j++) {
-				cells[i][j].liveOrDie(getLivingNeighbors(i,j));//??????????
+				cells[i][j].liveOrDie(getLivingNeighbors(i,j));
 			}
 		}
 		
@@ -166,7 +170,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		//    which cell is clicked. Then toggle
 		//    the isAlive variable for that cell.
 		
-		cells[e.getX()][e.getY()].isAlive = !cells[e.getX()][e.getY()].isAlive;
+		cells[e.getX()/cellsPerRow][e.getY()/cellsPerRow].isAlive =! cells[e.getX()/cellsPerRow][e.getY()/cellsPerRow].isAlive;
 		
 		
 		
