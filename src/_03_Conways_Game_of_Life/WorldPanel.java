@@ -91,7 +91,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 				g.setColor(Color.BLACK);
 				g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 				cells[i][j].draw(g); //calling draw method here
-				System.out.println(cells[i][j].isAlive);
+				//System.out.println(cells[i][j].isAlive);
 				
 			}
 		}
@@ -109,6 +109,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		for(int i=0; i<cells.length; i++) {
 			for(int j=0; j<cells[i].length; j++) {
 				livingNeighbors[i][j]= getLivingNeighbors(i,j);
+				
 			}
 		}
 		
@@ -116,7 +117,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		
 		for(int i=0; i<cellsPerRow; i++) {
 			for(int j=0; j<cellsPerRow; j++) {
-				cells[i][j].liveOrDie(getLivingNeighbors(i,j));
+				cells[i][j].liveOrDie(livingNeighbors[i][j]);
 			}
 		}
 		
@@ -135,17 +136,62 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 	//   cell identified by x and y
 	public int getLivingNeighbors(int x, int y){
 		int k=0;
-		for(int i=0; i<cells.length; i++) {
-			for(int j=0; j<cells[i].length; j++) {
-				if(cells[i][j].isAlive==true) {
-					k+=1;
-				}
-			}
-			
+		//System.out.println("X: "+x+ " Y: "+y);
+		//if(x!=0 && y!=0 && cells[x-1][y-1].isAlive==true) {
+		//	k+=1;
+		//}
+		//if(y!=0 && cells[x][y-1].isAlive==true) {
+		//	k+=1;
+		//}
+		/*
+		if(x!=cellsPerRow-1 && y!=0 && cells[x+1][y-1].isAlive==true) {
+			k+=1;
 		}
-		
-		return k;
-	}
+		if(x!=0 && cells[x-1][y].isAlive==true) {
+			k+=1;
+		}
+		if(x!=cellsPerRow-1  && cells[x+1][y].isAlive==true) {
+			k+=1;
+		}
+		if(x!=0 && y!=cellsPerRow-1 && cells[x-1][y+1].isAlive==true) {
+			k+=1;
+		}
+		if(y!=cellsPerRow-1 && cells[x][y+1].isAlive==true) {
+			k+=1;
+		}
+
+		if(x!=cellsPerRow-1 && y!=cellsPerRow-1 && cells[x+1][y+1].isAlive==true) {
+			k+=1;
+		}
+		**/
+		if(x!=0) {
+			if(cells[x-1][y].isAlive) k+=1;
+		}
+		if(x!=cellsPerRow-1 ) {
+			if(cells[x+1][y].isAlive) k+=1;
+		}
+		if(y!=0) {
+			if(cells[x][y-1].isAlive)k+=1;
+		}
+		if(y!=cellsPerRow-1) {
+			if(cells[x][y+1].isAlive)k+=1;
+		}
+		if(x!=0 && y!=0) {
+			if(cells[x-1][y-1].isAlive) k+=1;
+		}
+		if(x!=cellsPerRow-1 && y!=cellsPerRow-1) {
+			if(cells[x+1][y+1].isAlive) k+=1;
+		}
+		if(x!=0 && y!=cellsPerRow-1) {
+			if(cells[x-1][y+1].isAlive)k+=1;
+		}
+		if(x!=cellsPerRow-1 && y!=0) {
+			if(cells[x+1][y-1].isAlive)k+=1;
+		}
+
+return k;
+}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
