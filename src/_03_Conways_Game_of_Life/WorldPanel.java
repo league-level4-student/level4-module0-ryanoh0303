@@ -216,7 +216,7 @@ return k;
 		//    which cell is clicked. Then toggle
 		//    the isAlive variable for that cell.
 		
-		cells[(e.getX()/cellsPerRow)-100][(e.getY()/cellsPerRow)].isAlive =! cells[(e.getX()/cellsPerRow)-100][(e.getY()/cellsPerRow)].isAlive;
+		cells[(cellsPerRow*cells.length/e.getX())][cellsPerRow*cells.length/(e.getY())].isAlive =! cells[(cellsPerRow*cells.length/e.getX())][cellsPerRow*cells.length/(e.getY())].isAlive;
 		
 		
 		
