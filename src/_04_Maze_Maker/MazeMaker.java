@@ -86,7 +86,22 @@ public class MazeMaker{
 	//   This method will check if c1 and c2 are adjacent.
 	//   If they are, the walls between them are removed.
 	private static void removeWalls(Cell c1, Cell c2) {
-		
+		if(c1.getX()==c2.getX() && c1.getY()-c2.getY()==1) {
+			c1.setNorthWall(false);
+			c2.setSouthWall(false);
+		}
+		if(c1.getX()==c2.getX() && c2.getY()-c1.getY()==1) {
+			c1.setSouthWall(false);
+			c2.setNorthWall(false);
+		}
+		if(c1.getY()==c2.getY() &&c1.getX()-c2.getX()==1) {
+			 c1.setWestWall(false);
+			 c2.setEastWall(false);
+		}
+		if(c1.getY()==c2.getY() && c2.getX()-c1.getX()==1) {
+			 c1.setEastWall(false);
+			 c2.setWestWall(false);
+		}
 	}
 	
 	//8. Complete the getUnvisitedNeighbors method
@@ -95,8 +110,47 @@ public class MazeMaker{
 	private static ArrayList<Cell> getUnvisitedNeighbors(Cell c) {
 		ArrayList<Cell> arr = new ArrayList<Cell>();
 		if(c.getX()!=0) {
-			if(maze.cells[c.getX()-1][c.getY()].hasBeenVisited()) arr.add(maze.cells[c.getX()-1][c.getY()]);
+			if(!maze.cells[c.getX()-1][c.getY()].hasBeenVisited()) {
+				arr.add(maze.cells[c.getX()-1][c.getY()]);
+			}
 		}
+		if(c.getX()!=width-1 ) {
+			if(!maze.cells[c.getX()+1][c.getY()].hasBeenVisited()) {
+				arr.add(maze.cells[c.getX()+1][c.getY()]);
+			}
+		}
+		if(c.getY()!=0) {
+			if(!maze.cells[c.getX()][c.getY()-1].hasBeenVisited()) {
+				arr.add(maze.cells[c.getX()][c.getY()-1]);
+			}
+		}
+		if(c.getY()!=height-1) {
+			if(!maze.cells[c.getX()][c.getY()+1].hasBeenVisited()) {
+				arr.add(maze.cells[c.getX()][c.getY()+1]);
+			}
+		}
+		//if(c.getX()!=0 && c.getY()!=0) {
+		//	if(!maze.cells[c.getX()-1][c.getY()-1].hasBeenVisited()) {
+		//		arr.add(maze.cells[c.getX()-1][c.getY()-1]);
+		//	}
+	//	}
+		//if(c.getX()!=width-1 && c.getY()!=height-1) {
+		//	if(!maze.cells[c.getX()+1][c.getY()+1].hasBeenVisited()) {
+			//	arr.add(maze.cells[c.getX()+1][c.getY()+1]);
+		//	}
+		//}
+		//if(c.getX()!=0 && c.getY()!=height-1) {
+		//	if(!maze.cells[c.getX()-1][c.getY()+1].hasBeenVisited()) {
+		//		arr.add(maze.cells[c.getX()-1][c.getY()+1]);
+		//	}
+
+		//}
+		//if(c.getX()!=width-1 && c.getY()!=0) {
+		//	if(!maze.cells[c.getX()+1][c.getY()-1].hasBeenVisited()) {
+				//arr.add(maze.cells[c.getX()+1][c.getY()-1]);
+		//	}
+
+		//}
 		
 		return arr; 
 	}
