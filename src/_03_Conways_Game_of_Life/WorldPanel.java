@@ -29,7 +29,7 @@ public class WorldPanel extends JPanel implements MouseListener, ActionListener 
 		this.cellsPerRow = cpr;
 	
 		//2. Calculate the cell size.
-		cellSize= (w/(cellsPerRow))*(h/(cellsPerRow));
+		cellSize= (w/(cellsPerRow));
 		
 		//3. Initialize the cell array to the appropriate size.
 		cells= new Cell[cpr][cpr];
@@ -215,8 +215,11 @@ return k;
 		//10. Use e.getX() and e.getY() to determine
 		//    which cell is clicked. Then toggle
 		//    the isAlive variable for that cell.
+		System.out.println("X:"+ e.getX() +"Y: "+e.getY());
+		System.out.println("CELL SIZE: "+ cellSize +" cellsPerRow: " +cellsPerRow);
+		System.out.println("X2: "+(e.getX()/cellsPerRow) +" Y2: "+(e.getY()/cellsPerRow));
 		
-		cells[(cellsPerRow*cells.length/e.getX())][cellsPerRow*cells.length/(e.getY())].isAlive =! cells[(cellsPerRow*cells.length/e.getX())][cellsPerRow*cells.length/(e.getY())].isAlive;
+		cells[e.getX()/cellSize][(e.getY()/cellSize)].isAlive =! cells[e.getX()/cellSize][e.getY()/cellSize].isAlive;
 		
 		
 		
