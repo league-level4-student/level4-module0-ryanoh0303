@@ -1,12 +1,22 @@
 package _02_Pixel_Art;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,15 +24,18 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class ColorSelectionPanel extends JPanel implements MouseListener, ChangeListener{
+import _04_Serialization.SaveData;
+
+public class ColorSelectionPanel extends JPanel implements MouseListener, ChangeListener, ActionListener, Serializable{
 	private static final long serialVersionUID = 1L;
+	private static final String DATA_FILE = "src/_02_Pixel_Art/saved.dat";
 	
 	public static final int MAX_COLOR = 256;
 	
 	private JSlider rSlider;
 	private JSlider gSlider;
 	private JSlider bSlider;
-	
+	private JButton save;
 	private Color color;
 	
 	private int r = 0;
@@ -32,7 +45,9 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	private JLabel colorLabel;
 	private BufferedImage colorImage;
 	
+	
 	public ColorSelectionPanel() {
+		save = new JButton("SAVE");
 		rSlider = new JSlider(JSlider.VERTICAL);
 		gSlider = new JSlider(JSlider.VERTICAL);
 		bSlider = new JSlider(JSlider.VERTICAL);
@@ -46,7 +61,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		bSlider.setMinimum(0);
 		bSlider.setMaximum(MAX_COLOR - 1);
 		bSlider.setValue(0);
-		
+		save.addActionListener(this);
 		rSlider.addChangeListener(this);
 		gSlider.addChangeListener(this);
 		bSlider.addChangeListener(this);
@@ -61,10 +76,21 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 				colorImage.setRGB(j, i, color.getRGB());
 			}
 		}
-		
+		add(save);
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
-		
+		//here add 
+		try (FileInputStream fis = new FileInputStream(new File(DATA_FILE)); ObjectInputStream ois = new ObjectInputStream(fis)) {
+		   ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			e.printStackTrace();
+		}
+	
+	
 		add(new JLabel("red"));
 		add(rSlider);
 		add(new JLabel("green"));
@@ -124,5 +150,18 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==save) {
+			System.out.println("SAVE");
+			try (FileOutputStream fos = new FileOutputStream(new File(DATA_FILE)); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+				oos.writeObject(colorLabel);
+			} catch (IOException i) {
+				i.printStackTrace();
+			}
+		}
+		
 	}
 }

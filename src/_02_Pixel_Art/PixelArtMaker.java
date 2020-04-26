@@ -1,23 +1,33 @@
 package _02_Pixel_Art;
 
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class PixelArtMaker implements MouseListener{
+public class PixelArtMaker implements MouseListener, ActionListener{
+	
 	private JFrame window;
 	private GridInputPanel gip;
 	private GridPanel gp;
+	
 	ColorSelectionPanel csp;
+	
 	
 	public void start() {
 		gip = new GridInputPanel(this);	
+		
+		//jpanel = new JPanel();
 		window = new JFrame("Pixel Art");
 		window.setLayout(new FlowLayout());
 		window.setResizable(false);
-		
+		//jpanel.add(save);
+		//window.add(jpanel);
 		window.add(gip);
 		window.pack();
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,5 +71,11 @@ public class PixelArtMaker implements MouseListener{
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
