@@ -13,20 +13,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import _04_Serialization.SaveData;
-
-public class ColorSelectionPanel extends JPanel implements MouseListener, ChangeListener, ActionListener, Serializable{
+public class ColorSelectionPanel extends JPanel implements MouseListener, ChangeListener, Serializable, ActionListener{
 	private static final long serialVersionUID = 1L;
 	private static final String DATA_FILE = "src/_02_Pixel_Art/saved.dat";
 	
@@ -35,7 +31,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	private JSlider rSlider;
 	private JSlider gSlider;
 	private JSlider bSlider;
-	private JButton save;
+	
 	private Color color;
 	
 	private int r = 0;
@@ -45,13 +41,13 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	private JLabel colorLabel;
 	private BufferedImage colorImage;
 	
+	private JButton Save;
+	
 	
 	public ColorSelectionPanel() {
-		save = new JButton("SAVE");
 		rSlider = new JSlider(JSlider.VERTICAL);
 		gSlider = new JSlider(JSlider.VERTICAL);
 		bSlider = new JSlider(JSlider.VERTICAL);
-		
 		rSlider.setMinimum(0);
 		rSlider.setMaximum(MAX_COLOR - 1);
 		rSlider.setValue(0);
@@ -61,7 +57,6 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		bSlider.setMinimum(0);
 		bSlider.setMaximum(MAX_COLOR - 1);
 		bSlider.setValue(0);
-		save.addActionListener(this);
 		rSlider.addChangeListener(this);
 		gSlider.addChangeListener(this);
 		bSlider.addChangeListener(this);
@@ -69,6 +64,8 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		addMouseListener(this);
 		
 		colorLabel = new JLabel();
+		Save = new JButton("Save");
+		
 		colorImage = new BufferedImage(MAX_COLOR, MAX_COLOR, BufferedImage.TYPE_INT_RGB);
 		color = new Color(r, g, b);
 		for(int i = 0; i < MAX_COLOR; i++) {
@@ -76,19 +73,24 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 				colorImage.setRGB(j, i, color.getRGB());
 			}
 		}
-		add(save);
+		Save.addActionListener(this);
+		
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
+		add(Save);
 		//here add 
 		try (FileInputStream fis = new FileInputStream(new File(DATA_FILE)); ObjectInputStream ois = new ObjectInputStream(fis)) {
-		   ois.readObject();
+			return (JPanel) ois.readObject();
 		} catch (IOException e) {
 			e.printStackTrace();
+			return null;
 		} catch (ClassNotFoundException e) {
 			// This can occur if the object we read from the file is not
 			// an instance of any recognized class
 			e.printStackTrace();
+			return null;
 		}
+		
 	
 	
 		add(new JLabel("red"));
@@ -154,14 +156,16 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==save) {
-			System.out.println("SAVE");
+		if(e.getSource()==Save) {
+			System.out.println("Save");
 			try (FileOutputStream fos = new FileOutputStream(new File(DATA_FILE)); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 				oos.writeObject(colorLabel);
-			} catch (IOException i) {
-				i.printStackTrace();
+			} catch (IOException r) {
+				r.printStackTrace();
 			}
 		}
 		
 	}
+
+	
 }

@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class PixelArtMaker implements MouseListener, ActionListener{
-	
+	private JButton save;
 	private JFrame window;
 	private GridInputPanel gip;
 	private GridPanel gp;
@@ -21,11 +21,14 @@ public class PixelArtMaker implements MouseListener, ActionListener{
 	
 	public void start() {
 		gip = new GridInputPanel(this);	
+	
 		
-		//jpanel = new JPanel();
+
+		
 		window = new JFrame("Pixel Art");
 		window.setLayout(new FlowLayout());
 		window.setResizable(false);
+
 		//jpanel.add(save);
 		//window.add(jpanel);
 		window.add(gip);
@@ -75,7 +78,8 @@ public class PixelArtMaker implements MouseListener, ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	
+		
 		
 	}
 }
