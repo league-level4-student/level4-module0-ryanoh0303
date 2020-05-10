@@ -16,6 +16,7 @@ import java.io.Serializable;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -32,6 +33,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	private JSlider gSlider;
 	private JSlider bSlider;
 	
+	
 	private Color color;
 	
 	private int r = 0;
@@ -42,7 +44,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 	private BufferedImage colorImage;
 	
 	private JButton Save;
-	
+	private JButton Load;
 	
 	public ColorSelectionPanel() {
 		rSlider = new JSlider(JSlider.VERTICAL);
@@ -65,6 +67,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		
 		colorLabel = new JLabel();
 		Save = new JButton("Save");
+		Load = new JButton("Load");
 		
 		colorImage = new BufferedImage(MAX_COLOR, MAX_COLOR, BufferedImage.TYPE_INT_RGB);
 		color = new Color(r, g, b);
@@ -74,23 +77,13 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 			}
 		}
 		Save.addActionListener(this);
-		
+		Load.addActionListener(this);
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
 		add(Save);
+		add(Load);
 		//here add 
-		try (FileInputStream fis = new FileInputStream(new File(DATA_FILE)); ObjectInputStream ois = new ObjectInputStream(fis)) {
-			return (JPanel) ois.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} catch (ClassNotFoundException e) {
-			// This can occur if the object we read from the file is not
-			// an instance of any recognized class
-			e.printStackTrace();
-			return null;
-		}
-		
+	
 	
 	
 		add(new JLabel("red"));
@@ -101,6 +94,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		add(bSlider);
 	}
 
+	
 	public Color getSelectedColor() {
 		return color;
 	}
@@ -153,6 +147,20 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
 	}
+	private static JLabel load() {
+		try (FileInputStream fis = new FileInputStream(new File(DATA_FILE)); ObjectInputStream ois = new ObjectInputStream(fis)) {
+			return (JLabel) ois.readObject();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ClassNotFoundException e) {
+			// This can occur if the object we read from the file is not
+			// an instance of any recognized class
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -164,8 +172,14 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 				r.printStackTrace();
 			}
 		}
-		
+		if(e.getSource()==Load) {
+			JFrame jframe2 = new JFrame("Load");
+			jframe2.add(load());
+			jframe2.setSize(400,400);
+			jframe2.setVisible(true);
+		}
 	}
+}
 
 	
-}
+
