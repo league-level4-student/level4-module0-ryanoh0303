@@ -80,8 +80,7 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		Load.addActionListener(this);
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
-		add(Save);
-		add(Load);
+		
 		//here add 
 	
 	
@@ -147,38 +146,17 @@ public class ColorSelectionPanel extends JPanel implements MouseListener, Change
 		colorLabel.setIcon(new ImageIcon(colorImage));
 		add(colorLabel);
 	}
-	private static JLabel load() {
-		try (FileInputStream fis = new FileInputStream(new File(DATA_FILE)); ObjectInputStream ois = new ObjectInputStream(fis)) {
-			return (JLabel) ois.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} catch (ClassNotFoundException e) {
-			// This can occur if the object we read from the file is not
-			// an instance of any recognized class
-			e.printStackTrace();
-			return null;
-		}
-	}
 	
+	//serialize grid panel in pixel art maker
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource()==Save) {
-			System.out.println("Save");
-			try (FileOutputStream fos = new FileOutputStream(new File(DATA_FILE)); ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				oos.writeObject(colorLabel);
-			} catch (IOException r) {
-				r.printStackTrace();
-			}
-		}
-		if(e.getSource()==Load) {
-			JFrame jframe2 = new JFrame("Load");
-			jframe2.add(load());
-			jframe2.setSize(400,400);
-			jframe2.setVisible(true);
-		}
+		// TODO Auto-generated method stub
+		
 	}
+
+	
 }
 
 	
